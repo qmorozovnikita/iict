@@ -14,18 +14,18 @@ writeln();
 end;
  for i:=1 to  N do begin
     for j:=1 to M do begin
-    if q[i,j] > max then
+    if q[i,j] > max then  begin
     max:= q[i,j];
     max_i:=i;
-    max_i:= j;
-    if q[i,j]< min then
+    max_j:= j;
+    end;
+    if q[i,j]< min then   begin
     min:= q[i,j];
     min_i:=i;
     min_j:= j;
     end;
     end;
-    
-    
-writeln('Ìàêñèìàëüíûé ýëåìåíò ' , 'q[',max_i,',',max_j,']', '=' ,max);
-writeln('Ìèíèìàëüíîå çíà÷åíèå ','q[',min_i,',',min_j,']' ,' = ', min);
+    end;
+writeln('Max element ' , 'q[',max_i,',',max_j,']', '=' ,max);
+writeln('Min element ','q[',min_i,',',min_j,']' ,' = ', min);
 end.

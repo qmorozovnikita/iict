@@ -1,11 +1,10 @@
-//Является ли слово палиндромом
-slovo = str(input())
-x = len(slovo)
+word = str(input())
+x = len(word)
 i = 0
 x = x - 1
 k = 0
 while x - i >= i:
-    if slovo[x - i] == slovo[i]:
+    if word[x - i] == word[i]:
         i += 1
     else:
         k = 1

@@ -1,0 +1,123 @@
+##### index.php #####
+
+<?php 
+ var_dump($result);
+  include("config/db.php");
+
+  if(isset($_POST['register'])){
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if($username != '' && $email != '' && $password != ''){
+      $pwd_hash = sha1($password);
+      $db->bindParam(':username' , $username);
+      $db->bindParam(':email' , $email);
+      $db->bindParam(':pwd_hash' , $pwd_hash);
+
+      $stmt = $db->prepare("INSERT INTO users(username , email , password) VALUES(:username , :email , :pwd_hash)");
+
+      $result = $stmt->execute();
+
+      var_dump($result);
+      if($result){
+        header("Location: login.php"); 
+      } else{
+        $error = "Failed to Register User";
+      }
+    }
+    else{
+      $error = "Please fill all details!";
+
+    }
+  }
+
+?>
+<?php include("inc/header.php"); ?>
+<div class="container">
+  <form class="form-horizontal" method="POST" action="index.php">
+    <fieldset>
+      <legend>Register User</legend>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="username" class="col-lg-2 col-form-label">Username</label>
+            <div class="col-lg-10">
+              <input type="text" name="username" class="form-control" name="username" placeholder="Username" >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="email" class="col-lg-2 col-form-label">Email</label>
+            <div class="col-lg-10">
+              <input type="email" name="email" class="form-control" name="username" placeholder="Email" >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="password" class="col-lg-2 col-form-label">Password</label>
+            <div class="col-lg-10">
+              <input type="password" class="form-control" name="password" placeholder="Password" >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group"> 
+            <div class="col-lg-10">
+              <input type="submit" class="btn btn-primary" value="Register" name="register">
+              <button type="reset" class="btn btn-primary">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="form-group">
+          <div class="col-lg-50">
+            <?php if(isset($_POST['register'])): ?>
+              <div class="alert alert-dismissible alert-warning">
+                <p><?php echo $error; ?></p>
+              </div>
+            <?php endif; ?>
+          </div>
+        </div>
+      </div>
+
+    </fieldset>
+  </form>
+
+
+
+</div>
+
+<?php include("inc/footer.php"); ?>
+
+
+
+##### config/db.php #####
+
+<?php
+
+
+$user = "r";
+$pass = "pass";
+
+
+$db = new PDO('mysql:host=localhost;dbname=blog', $user, $pass);
+
+
+?>
